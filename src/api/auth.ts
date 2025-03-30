@@ -6,8 +6,10 @@ interface AuthResponse {
 
 export const register = async (name: string, email: string, password: string) => {
   const response = await apiClient.post<AuthResponse>("/register", { name, email, password });
-  localStorage.setItem("token", response.data.token);
-  return response.data;
+  const token = response.data.token;
+  localStorage.setItem("token", token); // Save token
+
+  return token;
 };
 
 export const login = async (email: string, password: string) => {

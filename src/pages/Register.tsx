@@ -14,7 +14,7 @@ const Register = () => {
     mutationFn: () => register(name, email, password),
     onSuccess: () => {
       setErrorMessage("");
-      navigate("/login");
+      navigate("/dashboard");
     },
     onError: (error: any) => {
       let message = "Registration failed. Please try again."; // Default message
