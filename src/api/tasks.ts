@@ -25,6 +25,12 @@ export const createTask = async (title: string) => {
   );
 };
 
+export const toggleTaskStatus = async (id: number) => {
+  await axios.put(`${API_URL}/tasks/${id}/toggle-status`, {}, { 
+    headers: getAuthHeader() 
+  });
+};
+
 export const deleteTask = async (id: number) => {
   await axios.delete(`${API_URL}/tasks/${id}`, {
     headers: getAuthHeader(),
