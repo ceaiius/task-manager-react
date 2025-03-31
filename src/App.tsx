@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import { AuthContext, AuthProvider } from "./context/AuthContext";
 import { useContext } from "react";
 import Profile from "./pages/Profile";
+import { ThemeProvider } from "./context/ThemeContext";
 
 const ProtectedRoute: React.FC<{ children: JSX.Element }> = ({ children }) => {
   const auth = useContext(AuthContext);
@@ -42,6 +43,7 @@ const App = () => {
   return (
     <AuthProvider>
     <BrowserRouter>
+    <ThemeProvider>
       <Navbar />
       <Routes>
           <Route path="/" element={<Home />} />
@@ -51,6 +53,7 @@ const App = () => {
           <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
           <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} /> {/* Add Profile route */}
       </Routes>
+      </ThemeProvider>
     </BrowserRouter>
     </AuthProvider>
   );

@@ -29,12 +29,12 @@ const TaskList: React.FC<TaskListProps> = ({
   onDeleteTask,
 }) => {
   return (
-    <div className="bg-white p-6 rounded-xl shadow-lg">
-      <h2 className="text-xl font-semibold text-gray-800 mb-4">Your Tasks</h2>
+    <div className="dark:bg-card-background dark:border-1 dark:border-white p-8 rounded-xl shadow-lg">
+      <h2 className="text-xl font-semibold dark:text-white mb-4">Your Tasks</h2>
       {isLoading ? (
         <p className="text-center text-gray-500 py-4">Loading tasks...</p>
       ) : isError ? (
-        <p className="text-center text-red-600 py-4">Error loading tasks: {error?.message || 'Unknown error'}</p>
+        <p className="text-center text-default-red py-4">Error loading tasks: {error?.message || 'Unknown error'}</p>
       ) : tasks && tasks.length > 0 ? (
         <ul className="space-y-3">
           {tasks.map((task) => (

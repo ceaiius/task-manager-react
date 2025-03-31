@@ -1,1 +1,8 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+@theme {
+    --color-default-red: #F16767;
+    --color-default-black:hsl(220,35%,3%);
+    --color-hover-black:hsl(210,14%,9%);
+    --color-card-background: rgba(5, 7, 10, 0.4);
+  }

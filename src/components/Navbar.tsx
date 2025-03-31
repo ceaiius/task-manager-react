@@ -3,6 +3,7 @@ import { useContext } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from '../context/AuthContext'; 
 import { logout as apiLogout } from '../api/auth'; 
+import ThemeToggle from './ThemeToggle';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -26,12 +27,12 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-gray-800 shadow-md">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav className="bg-white dark:bg-[hsl(210,14%,9%)] shadow-md">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
           {!isAuthenticated && ( 
-            <Link to="/" className="text-white font-bold text-xl flex-shrink-0">
+            <Link to="/" className="text-default-red dark:hover:text-white font-bold text-xl flex-shrink-0">
                 TaskManager
             </Link>
           )}
@@ -40,8 +41,7 @@ const Navbar = () => {
                 <div className="flex items-baseline space-x-4">
                   <Link
                     to="/dashboard"
-                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out"
-                  >
+                    className=" text-default-red  dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out"                  >
                     Dashboard
                   </Link>
                 </div>
@@ -49,13 +49,14 @@ const Navbar = () => {
             )}
           </div>
           <div className="hidden md:block">
-            <div className="ml-4 flex items-center md:ml-6 space-x-4"> 
+            <div className="ml-4 flex items-center md:ml-6 space-x-5"> 
+              <ThemeToggle />
               {isAuthenticated ? (
                 <>
                   
                   <Link
                     to="/profile"
-                    className="flex items-center text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out"
+                    className="flex items-center text-default-red dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out"
                     title="Profile Settings"
                   >
               
@@ -63,7 +64,7 @@ const Navbar = () => {
                   </Link>
                   <button
                     onClick={handleLogout}
-                    className="bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-md text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-red-500 transition duration-150 ease-in-out"
+                    className="bg-default-red dark:hover:bg-[hsl(210,14%,9%)] cursor-pointer text-white px-3 py-2 rounded-md text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-red-500 transition duration-150 ease-in-out"
                   >
                     Logout
                   </button>
@@ -72,13 +73,13 @@ const Navbar = () => {
                 <div className="flex items-baseline space-x-4">
                   <Link
                     to="/login"
-                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out"
+                    className="text-default-red dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out"
                   >
                     Login
                   </Link>
                   <Link
                     to="/register"
-                    className="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded-md text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-indigo-500 transition duration-150 ease-in-out"
+                    className="text-default-red dark:hover:text-white  px-3 py-2 rounded-md text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-indigo-500 transition duration-150 ease-in-out"
                   >
                     Register
                   </Link>

@@ -98,7 +98,7 @@ const Profile = () => {
     }
 
     if (isProfileError) {
-        return <div className="min-h-screen flex items-center justify-center text-red-500">Error loading profile: {profileError?.message}</div>;
+        return <div className="min-h-screen flex items-center justify-center text-default-red">Error loading profile: {profileError?.message}</div>;
     }
 
     if (!userData) {
@@ -107,25 +107,25 @@ const Profile = () => {
 
 
     return (
-        <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8 dark:bg-default-black">
             <div className="max-w-3xl mx-auto space-y-8">
-                <h1 className="text-center text-4xl font-extrabold text-gray-900">
+                <h1 className="text-center text-4xl font-extrabold dark:text-white">
                     Profile Settings
                 </h1>
 
-                <div className="bg-white p-6 rounded-xl shadow-lg">
-                    <h2 className="text-xl font-semibold text-gray-800 mb-4">Your Information</h2>
+                <div className="card-background p-6 rounded-xl shadow-lg">
+                    <h2 className="text-xl font-semibold dark:text-white mb-4">Your Information</h2>
                     <div className="space-y-2">
-                        <p><span className="font-medium text-gray-600">Name:</span> {userData.name}</p>
-                        <p><span className="font-medium text-gray-600">Email:</span> {userData.email}</p>
+                        <p><span className="font-medium dark:text-white">Name:</span> <span className='dark:text-default-red'>{userData.name}</span></p>
+                        <p><span className="font-medium dark:text-white">Email:</span> <span className='dark:text-default-red'>{userData.email}</span></p>
                     </div>
                 </div>
 
-                <div className="bg-white p-6 rounded-xl shadow-lg">
-                    <h2 className="text-xl font-semibold text-gray-800 mb-4">Update Name</h2>
+                <div className="card-background p-6 rounded-xl shadow-lg">
+                    <h2 className="text-xl font-semibold dark:text-white mb-4">Update Name</h2>
                     <form onSubmit={handleNameUpdate} className="space-y-4">
                         <div>
-                            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                            <label htmlFor="name" className="block text-sm font-medium dark:text-white">
                                 Name
                             </label>
                             <input
@@ -134,13 +134,13 @@ const Profile = () => {
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                                 required
-                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                className="mt-1 block w-full px-3 py-2 dark:text-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-default-red focus:border-default-red sm:text-sm"
                                 disabled={updateNameMutation.isLoading}
                             />
                         </div>
 
                         {nameUpdateStatus && (
-                            <p className={`text-sm ${nameUpdateStatus.type === 'success' ? 'text-green-600' : 'text-red-600'}`}>
+                            <p className={`text-sm ${nameUpdateStatus.type === 'success' ? 'text-green-600' : 'text-default-red'}`}>
                                 {nameUpdateStatus.message}
                             </p>
                         )}
@@ -148,7 +148,7 @@ const Profile = () => {
                         <button
                             type="submit"
                             disabled={updateNameMutation.isLoading || name === userData.name}
-                            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-default-red hover:bg-hover-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             {updateNameMutation.isLoading ? (
                                 <>
@@ -162,48 +162,48 @@ const Profile = () => {
                     </form>
                 </div>
 
-                <div className="bg-white p-6 rounded-xl shadow-lg">
-                    <h2 className="text-xl font-semibold text-gray-800 mb-4">Change Password</h2>
+                <div className="card-background p-6 rounded-xl shadow-lg">
+                    <h2 className="text-xl font-semibold dark:text-white mb-4">Change Password</h2>
                     <form onSubmit={handlePasswordChange} className="space-y-4">
                         <div>
-                            <label htmlFor="current-password" className="block text-sm font-medium text-gray-700">Current Password</label>
+                            <label htmlFor="current-password" className="block text-sm font-medium dark:text-white">Current Password</label>
                             <input
                                 id="current-password"
                                 type="password"
                                 value={currentPassword}
                                 onChange={(e) => setCurrentPassword(e.target.value)}
                                 required
-                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none dark:text-white focus:ring-default-red focus:border-default-red sm:text-sm"
                                 disabled={changePasswordMutation.isLoading}
                             />
                         </div>
                          <div>
-                            <label htmlFor="new-password" className="block text-sm font-medium text-gray-700">New Password</label>
+                            <label htmlFor="new-password" className="block text-sm font-medium dark:text-white">New Password</label>
                             <input
                                 id="new-password"
                                 type="password"
                                 value={newPassword}
                                 onChange={(e) => setNewPassword(e.target.value)}
                                 required
-                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none dark:text-white focus:ring-default-red focus:border-default-red sm:text-sm"
                                 disabled={changePasswordMutation.isLoading}
                             />
                         </div>
                          <div>
-                            <label htmlFor="confirm-password" className="block text-sm font-medium text-gray-700">Confirm New Password</label>
+                            <label htmlFor="confirm-password" className="block text-sm font-medium dark:text-white">Confirm New Password</label>
                             <input
                                 id="confirm-password"
                                 type="password"
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
                                 required
-                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none dark:text-white focus:ring-default-red focus:border-default-red sm:text-sm"
                                 disabled={changePasswordMutation.isLoading}
                             />
                         </div>
 
                         {passwordUpdateStatus && (
-                             <p className={`text-sm ${passwordUpdateStatus.type === 'success' ? 'text-green-600' : 'text-red-600'}`}>
+                             <p className={`text-sm ${passwordUpdateStatus.type === 'success' ? 'text-green-600' : 'text-default-red'}`}>
                                 {passwordUpdateStatus.message}
                             </p>
                         )}
@@ -211,7 +211,7 @@ const Profile = () => {
                         <button
                              type="submit"
                              disabled={changePasswordMutation.isLoading}
-                             className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                             className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-default-red hover:bg-hover-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                              {changePasswordMutation.isLoading ? (
                                 <>

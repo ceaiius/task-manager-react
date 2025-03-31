@@ -91,9 +91,9 @@ const Dashboard = () => {
 
 
   return (
-    <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-100 dark:bg-default-black py-12 px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-2xl mx-auto">
-        <h1 className="text-center text-4xl font-extrabold text-gray-900 mb-8">
+        <h1 className="text-center text-4xl font-extrabold dark:text-white mb-8">
           Task Dashboard
         </h1>
 
