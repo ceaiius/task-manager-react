@@ -107,13 +107,13 @@ const Profile = () => {
 
 
     return (
-        <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8 dark:bg-default-black">
+        <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8 dark:bg-gray-900">
             <div className="max-w-3xl mx-auto space-y-8">
                 <h1 className="text-center text-4xl font-extrabold dark:text-white">
                     Profile Settings
                 </h1>
 
-                <div className="card-background p-6 rounded-xl shadow-lg">
+                <div className="card-background outline-1  p-6 rounded-xl shadow-lg">
                     <h2 className="text-xl font-semibold dark:text-white mb-4">Your Information</h2>
                     <div className="space-y-2">
                         <p><span className="font-medium dark:text-white">Name:</span> <span className='dark:text-default-red'>{userData.name}</span></p>
@@ -121,7 +121,7 @@ const Profile = () => {
                     </div>
                 </div>
 
-                <div className="card-background p-6 rounded-xl shadow-lg">
+                <div className="card-background outline-1  p-6 rounded-xl shadow-lg">
                     <h2 className="text-xl font-semibold dark:text-white mb-4">Update Name</h2>
                     <form onSubmit={handleNameUpdate} className="space-y-4">
                         <div>
@@ -162,7 +162,7 @@ const Profile = () => {
                     </form>
                 </div>
 
-                <div className="card-background p-6 rounded-xl shadow-lg">
+                <div className="card-background outline-1  p-6 rounded-xl shadow-lg">
                     <h2 className="text-xl font-semibold dark:text-white mb-4">Change Password</h2>
                     <form onSubmit={handlePasswordChange} className="space-y-4">
                         <div>

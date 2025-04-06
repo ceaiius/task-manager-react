@@ -1,13 +1,19 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getTasks, createTask, deleteTask, toggleTaskStatus } from "../api/tasks"; // Adjust path if needed
 import { useState } from "react";
-import AddTaskForm from '../components/AddTaskForm'; 
-import TaskList from '../components/TaskList'; 
+import AddTaskForm from '../components/AddTaskForm';
+import TaskList from '../components/TaskList';
 
 interface Task {
   id: number | string;
   title: string;
   status: 'pending' | 'completed';
+  due_date: string | null; 
+}
+
+interface AddTaskPayload {
+    title: string;
+    dueDate: string | null;
 }
 
 const Dashboard = () => {
@@ -22,8 +28,8 @@ const Dashboard = () => {
     staleTime: 1 * 60 * 1000,
   });
 
-  const createTaskMutation = useMutation<unknown, Error, string>({
-    mutationFn: createTask,
+  const createTaskMutation = useMutation<unknown, Error, AddTaskPayload>({
+    mutationFn: (payload) => createTask({ title: payload.title, due_date: payload.dueDate }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
       setErrorMessage(null);
@@ -34,55 +40,38 @@ const Dashboard = () => {
     },
   });
 
-  const toggleTaskStatusMutation = useMutation<unknown, Error, number>({
+
+  const toggleTaskStatusMutation = useMutation<unknown, Error, number | string>({
       mutationFn: toggleTaskStatus,
-      onMutate: (taskId) => {
-          setTogglingTaskId(taskId);
-          setErrorMessage(null);
-      },
-      onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ["tasks"] });
-      },
-      onError: (error, taskId) => {
-          setErrorMessage(error.message || "Failed to update task status.");
-          console.error(`Toggle status error for task ${taskId}:`, error);
-      },
-      onSettled: () => {
-          setTogglingTaskId(null);
-      },
+       onMutate: (taskId) => { setTogglingTaskId(taskId); setErrorMessage(null); },
+       onSuccess: () => { queryClient.invalidateQueries({ queryKey: ["tasks"] }); },
+       onError: (error, taskId) => { setErrorMessage(error.message || "Failed to update status."); console.error(`Toggle status error for task ${taskId}:`, error); },
+       onSettled: () => { setTogglingTaskId(null); },
   });
 
-  const deleteTaskMutation = useMutation<unknown, Error, number>({
+  const deleteTaskMutation = useMutation<unknown, Error, number | string>({ 
       mutationFn: deleteTask,
-    onMutate: (taskId) => {
-        setDeletingTaskId(taskId);
-        setErrorMessage(null);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["tasks"] });
-    },
-    onError: (error, taskId) => {
-      setErrorMessage(error.message || "Failed to delete task. Please try again.");
-      console.error(`Delete task error for task ${taskId}:`, error);
-    },
-    onSettled: () => {
-        setDeletingTaskId(null);
-    }
+       onMutate: (taskId) => { setDeletingTaskId(taskId); setErrorMessage(null); },
+       onSuccess: () => { queryClient.invalidateQueries({ queryKey: ["tasks"] }); },
+       onError: (error, taskId) => { setErrorMessage(error.message || "Failed to delete task."); console.error(`Delete task error for task ${taskId}:`, error); },
+       onSettled: () => { setDeletingTaskId(null); },
   });
 
-  const handleCreateTaskSubmit = (title: string) => {
+
+  const handleCreateTaskSubmit = (payload: AddTaskPayload) => {
     setErrorMessage(null);
-    createTaskMutation.mutate(title);
+    console.log("Dashboard received payload:", payload);
+    createTaskMutation.mutate(payload); 
   };
 
   const handleToggleStatus = (taskId: number | string) => {
     setErrorMessage(null);
-    toggleTaskStatusMutation.mutate(Number(taskId));
+    toggleTaskStatusMutation.mutate(taskId);
   }
 
   const handleDeleteTask = (taskId: number | string) => {
     setErrorMessage(null);
-    deleteTaskMutation.mutate(Number(taskId));
+    deleteTaskMutation.mutate(taskId);
   };
 
   const handleClearError = () => {
@@ -91,21 +80,20 @@ const Dashboard = () => {
 
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-default-black py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-2xl mx-auto">
-        <h1 className="text-center text-4xl font-extrabold dark:text-white mb-8">
+        <h1 className="text-center text-4xl font-extrabold text-gray-900 dark:text-gray-100 mb-8">
           Task Dashboard
         </h1>
 
         <AddTaskForm
             onSubmit={handleCreateTaskSubmit}
             isLoading={createTaskMutation.isLoading}
-            onClearError={handleClearError} 
+            onClearError={handleClearError}
          />
 
-
          {errorMessage && (
-             <div className="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-md" role="alert">
+             <div className="mb-4 p-4 bg-red-100 dark:bg-red-900/30 border border-red-400 dark:border-red-600 text-red-700 dark:text-red-300 rounded-md" role="alert">
                  {errorMessage}
              </div>
          )}
@@ -118,7 +106,7 @@ const Dashboard = () => {
             togglingTaskId={togglingTaskId}
             deletingTaskId={deletingTaskId}
             onToggleStatus={handleToggleStatus}
-            onDeleteTask={handleDeleteTask} 
+            onDeleteTask={handleDeleteTask}
          />
 
       </div>
