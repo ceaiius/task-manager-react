@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+const TASK_CATEGORIES = ["Work", "Personal", "Shopping", "Study", "Other"];
 
 interface AddTaskPayload {
     title: string;
     dueDate: string | null;
+    category: string | null;
 }
 
 interface AddTaskFormProps {
@@ -14,6 +16,7 @@ interface AddTaskFormProps {
 const AddTaskForm: React.FC<AddTaskFormProps> = ({ onSubmit, isLoading, onClearError }) => {
   const [newTaskTitle, setNewTaskTitle] = useState("");
   const [dueDate, setDueDate] = useState<string>("");
+  const [category, setCategory] = useState<string>("");
   const [validationError, setValidationError] = useState<string | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -24,9 +27,10 @@ const AddTaskForm: React.FC<AddTaskFormProps> = ({ onSubmit, isLoading, onClearE
     }
     setValidationError(null);
     onClearError?.();
-    onSubmit({ title: newTaskTitle, dueDate: dueDate || null });
+    onSubmit({ title: newTaskTitle, dueDate: dueDate || null, category: category || null });
     setNewTaskTitle("");
     setDueDate("");
+    setCategory("");
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,9 +45,15 @@ const AddTaskForm: React.FC<AddTaskFormProps> = ({ onSubmit, isLoading, onClearE
      onClearError?.();
   }
 
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setCategory(e.target.value);
+     if (validationError) setValidationError(null);
+     onClearError?.();
+ }
+
   return (
      <div className="bg-white dark:bg-gray-800 border dark:border-gray-700 p-6 rounded-xl shadow-lg mb-8">
-        <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-[1fr_auto_auto] gap-3 items-end">
+        <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-[1fr_1fr_1fr_1fr] gap-3 items-end">
             <div className="md:col-span-1">
                  <label htmlFor="new-task-input" className="sr-only">
                     New Task Title
@@ -72,6 +82,22 @@ const AddTaskForm: React.FC<AddTaskFormProps> = ({ onSubmit, isLoading, onClearE
                     disabled={isLoading}
                 />
             </div>
+
+            <div className="md:col-span-1">
+                <select
+                    id="category-select"
+                    value={category}
+                    onChange={handleCategoryChange}
+                    className={`w-full px-3 py-2 border rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 dark:focus:ring-offset-gray-800 sm:text-sm disabled:opacity-50 border-gray-300 dark:border-gray-600`}
+                    disabled={isLoading}
+                >
+                    <option value="">Select Category</option>
+                    {TASK_CATEGORIES.map(cat => (
+                        <option key={cat} value={cat}>{cat}</option>
+                    ))}
+                </select>
+            </div>
+
             <button
                 type="submit"
                 disabled={isLoading || !newTaskTitle.trim()}

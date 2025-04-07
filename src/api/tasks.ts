@@ -3,6 +3,7 @@ import axios from "axios";
 interface TaskPayload {
     title: string;
     due_date?: string | null; 
+    category?: string | null;
 }
 
 const API_URL = "http://localhost:8000/api";
@@ -29,10 +30,13 @@ export const getTasks = async () => {
 export const createTask = async (payload: TaskPayload) => {
   console.log("Creating task with payload:", payload);
 
-  const dataToSend: { title: string; due_date?: string } = { title: payload.title };
+  const dataToSend: { title: string; due_date?: string; category?: string } = { title: payload.title };
   if (payload.due_date) {
       dataToSend.due_date = payload.due_date;
   }
+  if (payload.category) {
+    dataToSend.category = payload.category;
+}
 
   await axios.post(
     `${API_URL}/tasks`,

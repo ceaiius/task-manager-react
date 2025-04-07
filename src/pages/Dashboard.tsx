@@ -9,11 +9,13 @@ interface Task {
   title: string;
   status: 'pending' | 'completed';
   due_date: string | null; 
+  category: string | null;
 }
 
 interface AddTaskPayload {
     title: string;
     dueDate: string | null;
+    category: string | null;
 }
 
 const Dashboard = () => {
@@ -21,6 +23,7 @@ const Dashboard = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [togglingTaskId, setTogglingTaskId] = useState<number | string | null>(null);
   const [deletingTaskId, setDeletingTaskId] = useState<number | string | null>(null);
+  const [filterCategory, setFilterCategory] = useState<string>('all');
 
   const { data: tasks, isLoading: isLoadingTasks, isError: isTasksError, error: tasksError } = useQuery<Task[], Error>({
     queryKey: ["tasks"],
@@ -29,7 +32,7 @@ const Dashboard = () => {
   });
 
   const createTaskMutation = useMutation<unknown, Error, AddTaskPayload>({
-    mutationFn: (payload) => createTask({ title: payload.title, due_date: payload.dueDate }),
+    mutationFn: (payload) => createTask({ title: payload.title, due_date: payload.dueDate, category: payload.category  }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
       setErrorMessage(null);
@@ -78,6 +81,10 @@ const Dashboard = () => {
     setErrorMessage(null);
   }
 
+  const handleFilterChange = (category: string) => {
+    setFilterCategory(category);
+}
+
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
@@ -107,6 +114,8 @@ const Dashboard = () => {
             deletingTaskId={deletingTaskId}
             onToggleStatus={handleToggleStatus}
             onDeleteTask={handleDeleteTask}
+            currentFilter={filterCategory}
+            onFilterChange={handleFilterChange}
          />
 
       </div>
