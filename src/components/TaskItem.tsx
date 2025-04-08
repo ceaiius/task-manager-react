@@ -66,9 +66,9 @@ const TaskItem: React.FC<TaskItemProps> = ({
         : 'bg-gray-50 dark:bg-gray-800/80 border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700/90'
       }`}
     >
-        <div className="mb-2 sm:mb-0 flex-grow mr-4">
+        <div className="line-clamp-1 mb-2 sm:mb-0 flex flex-wrap flex-grow mr-4">
 
-            <span className={`block text-gray-800 dark:text-gray-100 ${isCompleted && !isDeleting ? 'line-through text-gray-500 dark:text-gray-400' : ''} ${isProcessing ? 'opacity-70' : ''}`}>
+            <span className={` break-words text-ellipsis overflow-hidden block text-gray-800 dark:text-gray-100 ${isCompleted && !isDeleting ? 'line-through text-gray-500 dark:text-gray-400' : ''} ${isProcessing ? 'opacity-70' : ''}`}>
                 {task.title}
             </span>
             <div className="flex items-center flex-wrap gap-x-3 mt-1">

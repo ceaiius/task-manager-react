@@ -36,12 +36,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     apiClient.defaults.headers.common['Authorization'] = `Bearer ${currentToken}`;
     try {
       const userData = await getUserProfile();
-      console.log("User profile fetched:", userData);
       setUser(userData);
       setIsAuthenticated(true);
     } catch (error) {
       console.error("Failed to fetch user profile on load:", error);
-      // Token might be invalid, clear it
       localStorage.removeItem("token");
       setToken(null);
       setUser(null);

@@ -33,7 +33,6 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     root.classList.add(currentTheme);
 
     localStorage.setItem('theme', currentTheme);
-    console.log(`Theme applied: ${currentTheme}`);
 
   }, [theme]); 
 

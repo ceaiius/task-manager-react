@@ -41,7 +41,6 @@ const PublicRoute: React.FC<{ children: JSX.Element }> = ({ children }) => {
 
 const App = () => {
   return (
-    <AuthProvider>
     <BrowserRouter>
     <ThemeProvider>
       <Navbar />
@@ -55,7 +54,6 @@ const App = () => {
       </Routes>
       </ThemeProvider>
     </BrowserRouter>
-    </AuthProvider>
   );
 };
 
